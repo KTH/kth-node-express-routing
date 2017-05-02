@@ -22,15 +22,19 @@ function _unshift(arr, item) {
 Router.prototype._registerRoute = function (verb, namespace, pathExpr) {
   var namespaceTuple = namespace.split('.')
   var cursor = this._routeDefs
-  for (var tmp in namespaceTuple) {
-    if (cursor[tmp] === undefined) {
-      cursor[tmp] = {}
+  for (let index in namespaceTuple) {
+    const tmp = namespaceTuple[index]
+    if (index < namespaceTuple.length - 1) {
+      if (cursor[tmp] === undefined) {
+        cursor[tmp] = {}
+      }
+      cursor = cursor[tmp]
+    } else {
+      cursor[tmp] = {
+        uri: pathExpr,
+        method: verb
+      }
     }
-    cursor = cursor[tmp]
-  }
-  cursor = {
-    uri: pathExpr,
-    method: verb
   }
 }
 
