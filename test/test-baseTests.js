@@ -44,5 +44,4 @@ describe('Router', function () {
     expect(paths.get.test2.uri).to.equal('/test2')
     expect(paths.post.test.method).to.equal('post')
   })
-
 })

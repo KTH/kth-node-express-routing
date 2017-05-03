@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- '6.9.1'
+deploy:
+  provider: npm
+  email: webmaster-private@kth.se
+  api_key:
+    secure: yuQI6SLfCADfFSjYgKgkpzomIHhZhFGNeeblc4DdjxvH7+NBNDFGCa1eTX/GEP8K+Z5kePhOFlIB7clGZ0bxWQUSqFREGk11abzkE2GCAVq+Vvam3ZcPeoDelPpNjaMiOLEglHfBBMixJT9SLWf8etCqTtfl7CT13ieY/QsaNdnxJI9nTe+xk6CsKW6cOg2YqR16kNyjW2DgsKlkAHUidTx/gKvuC2JeZPqvR7+wxTwAgf2tTTZyCZ93M6uu+Xl9oxPQQRBCUW3K8GqY+KR+/AN4JvBtyBZH3PYZOwEeEJflhOUEozcHGpv8x40p6V/IHZdd50reVEUi9AfnYzqIf4q0BQXxtEAHWXFi58/sx3fq6PrFWuSMt/YsrhhCp53hgJsnS3sTMkkRJjHJeo7V8W2TimkoHdD3kjZnXLORXa5LBtMMEHyWKc06e5ZU1jEb7sQU6JI6FN0gafxjBCViZtAfljSskNrYMnpiJ7kxwiwIcMDYA9mWoyYtZRKrpadZ0BCalL2M4GqAgFi4h7lj5bIJV5t8kIf7+ECArYolnOD6cs/qFysn4plNK847iklfIRfZPEuYssrWufxLX5M684FECH2ir0Zca7DbctIBnD0MdFIWzRmM2k/TWM2F0u7mfV41j/0Rvt5wI7czHu8fd1Xa5nbd6SEH39BxlaUW+Mo=
+  on:
+    tags: true
+    repo: KTH/kth-node-express-routing
