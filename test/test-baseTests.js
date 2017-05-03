@@ -30,7 +30,7 @@ describe('Router', function () {
 
   it('allows adding DEL', function () {
     const router = express.Router()
-    router.del('test', '/test', function (req, res, next) {})
+    router.delete('test', '/test', function (req, res, next) {})
     expect(router).not.to.equal(undefined)
   })
 

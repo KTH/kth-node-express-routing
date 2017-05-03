@@ -47,42 +47,15 @@ Router.prototype.verb = function (verb, namespace, pathExpr) {
   return this._router[verb](pathExpr, middlewares)
 }
 
-Router.prototype.get = function (namespace, pathExpr) {
-  this._registerRoute('get', namespace, pathExpr)
-  var middlewares = _splice(arguments, 2)
-  var args = _unshift(middlewares, pathExpr)
-  return this._router.get.apply(this._router, args)
-}
-Router.prototype.post = function (namespace, pathExpr) {
-  this._registerRoute('post', namespace, pathExpr)
-  var middlewares = _splice(arguments, 2)
-  var args = _unshift(middlewares, pathExpr)
-  return this._router.get.apply(this._router, args)
-}
-Router.prototype.put = function (namespace, pathExpr) {
-  this._registerRoute('put', namespace, pathExpr)
-  var middlewares = _splice(arguments, 2)
-  var args = _unshift(middlewares, pathExpr)
-  return this._router.get.apply(this._router, args)
-}
-Router.prototype.del = function (namespace, pathExpr) {
-  this._registerRoute('del', namespace, pathExpr)
-  var middlewares = _splice(arguments, 2)
-  var args = _unshift(middlewares, pathExpr)
-  return this._router.get.apply(this._router, args)
-}
-Router.prototype.all = function (namespace, pathExpr) {
-  this._registerRoute('all', namespace, pathExpr)
-  var middlewares = _splice(arguments, 2)
-  var args = _unshift(middlewares, pathExpr)
-  return this._router.get.apply(this._router, args)
-}
-Router.prototype.use = function (namespace, pathExpr) {
-  this._registerRoute('use', namespace, pathExpr)
-  var middlewares = _splice(arguments, 2)
-  var args = _unshift(middlewares, pathExpr)
-  return this._router.get.apply(this._router, args)
-}
+const verbs = ['get', 'post', 'put', 'delete', 'all', 'use']
+verbs.forEach((verb) => {
+  Router.prototype[verb] = function (namespace, pathExpr) {
+    this._registerRoute(verb, namespace, pathExpr)
+    var middlewares = _splice(arguments, 2)
+    var args = _unshift(middlewares, pathExpr)
+    return this._router[verb].apply(this._router, args)
+  }
+})
 
 Router.prototype.getPaths = function () {
   return this._routeDefs
