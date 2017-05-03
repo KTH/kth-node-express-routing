@@ -49,14 +49,14 @@ verbs.forEach((verb) => {
   }
 })
 
-Router.prototype.getPaths = function () {
-  return _routeDefs
-}
-
 Router.prototype.getRouter = function () {
   return this._router
 }
 
 module.exports.Router = function () {
   return new Router()
+}
+
+module.exports.getPaths = function () {
+  return _routeDefs
 }

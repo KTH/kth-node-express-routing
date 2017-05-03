@@ -39,7 +39,7 @@ describe('Router', function () {
     router.get('get.test', '/test', function (req, res, next) {})
     router.get('get.test2', '/test2', function (req, res, next) {})
     router.post('post.test', '/test', function (req, res, next) {})
-    const paths = router.getPaths()
+    const paths = express.getPaths()
     expect(paths.get.test.method).to.equal('get')
     expect(paths.get.test2.uri).to.equal('/test2')
     expect(paths.post.test.method).to.equal('post')
