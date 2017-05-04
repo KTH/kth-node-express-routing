@@ -58,4 +58,21 @@ describe('Router', function () {
     expect(paths.get.test.uri).to.equal('/test')
     expect(paths.get.test.extraOptions.exists).to.equal(true)
   })
+
+  it('can add paths', function () {
+    express.addPaths('test', { yes: true })
+    const paths = express.getPaths()
+    expect(paths.test.yes).to.equal(true)
+  })
+
+  it('can create AND add paths', function () {
+    const router = express.Router()
+    router.get('get.test', '/test', function (req, res, next) {})
+    express.addPaths('test', { yes: true })
+    const paths = express.getPaths()
+    expect(paths.test.yes).to.equal(true)
+    expect(paths.get.test.method).to.equal('get')
+    expect(paths.get.test2.uri).to.equal('/test2')
+    expect(paths.post.test.method).to.equal('post')
+  })
 })

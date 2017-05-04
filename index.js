@@ -70,3 +70,19 @@ module.exports.Router = function () {
 module.exports.getPaths = function () {
   return _routeDefs
 }
+
+module.exports.addPaths = function (namespace, pathObj) {
+  var namespaceTuple = namespace.split('.')
+  var cursor = _routeDefs
+  for (let index in namespaceTuple) {
+    const tmp = namespaceTuple[index]
+    if (index < namespaceTuple.length - 1) {
+      if (cursor[tmp] === undefined) {
+        cursor[tmp] = {}
+      }
+      cursor = cursor[tmp]
+    } else {
+      cursor[tmp] = pathObj
+    }
+  }
+}
