@@ -44,4 +44,18 @@ describe('Router', function () {
     expect(paths.get.test2.uri).to.equal('/test2')
     expect(paths.post.test.method).to.equal('post')
   })
+
+  it('can create paths by passing object as namespace argument', function () {
+    const router = express.Router()
+    router.get({
+      namespace: 'get.test',
+      extraOptions: {
+        exists: true
+      }
+    }, '/test', function (req, res, next) {})
+    const paths = express.getPaths()
+    expect(paths.get.test.method).to.equal('get')
+    expect(paths.get.test.uri).to.equal('/test')
+    expect(paths.get.test.extraOptions.exists).to.equal(true)
+  })
 })

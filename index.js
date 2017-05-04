@@ -20,7 +20,17 @@ function _unshift (arr, item) {
   return newArr
 }
 
-Router.prototype._registerRoute = function (verb, namespace, pathExpr) {
+Router.prototype._registerRoute = function (verb, options, pathExpr) {
+  let namespace
+  let addOptions = {}
+  if (typeof options === 'object') {
+    namespace = options.namespace
+    Object.assign(addOptions, options)
+    delete addOptions.namespace
+  } else {
+    namespace = options
+  }
+
   var namespaceTuple = namespace.split('.')
   var cursor = _routeDefs
   for (let index in namespaceTuple) {
@@ -31,10 +41,10 @@ Router.prototype._registerRoute = function (verb, namespace, pathExpr) {
       }
       cursor = cursor[tmp]
     } else {
-      cursor[tmp] = {
+      cursor[tmp] = Object.assign({
         uri: pathExpr,
         method: verb
-      }
+      }, addOptions)
     }
   }
 }
