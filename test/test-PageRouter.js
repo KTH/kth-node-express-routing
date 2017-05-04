@@ -2,9 +2,9 @@
 'use strict'
 const expect = require('chai').expect
 
-const express = require('../index')
+const express = require('../index').PageRouter
 
-describe('Router', function () {
+describe('PageRouter', function () {
   it('can be created', function () {
     const router = express.Router()
     expect(router).not.to.equal(undefined)
