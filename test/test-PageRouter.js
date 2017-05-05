@@ -2,40 +2,40 @@
 'use strict'
 const expect = require('chai').expect
 
-const express = require('../index').PageRouter
+const express = require('../index')
 
 describe('PageRouter', function () {
   it('can be created', function () {
-    const router = express.Router()
+    const router = express.PageRouter()
     expect(router).not.to.equal(undefined)
   })
 
   it('allows adding GET', function () {
-    const router = express.Router()
+    const router = express.PageRouter()
     router.get('test', '/test', function (req, res, next) {})
     expect(router).not.to.equal(undefined)
   })
 
   it('allows adding POST', function () {
-    const router = express.Router()
+    const router = express.PageRouter()
     router.post('test', '/test', function (req, res, next) {})
     expect(router).not.to.equal(undefined)
   })
 
   it('allows adding PUT', function () {
-    const router = express.Router()
+    const router = express.PageRouter()
     router.put('test', '/test', function (req, res, next) {})
     expect(router).not.to.equal(undefined)
   })
 
   it('allows adding DEL', function () {
-    const router = express.Router()
+    const router = express.PageRouter()
     router.delete('test', '/test', function (req, res, next) {})
     expect(router).not.to.equal(undefined)
   })
 
   it('can create paths', function () {
-    const router = express.Router()
+    const router = express.PageRouter()
     router.get('get.test', '/test', function (req, res, next) {})
     router.get('get.test2', '/test2', function (req, res, next) {})
     router.post('post.test', '/test', function (req, res, next) {})
@@ -46,7 +46,7 @@ describe('PageRouter', function () {
   })
 
   it('can create paths by passing object as namespace argument', function () {
-    const router = express.Router()
+    const router = express.PageRouter()
     router.get({
       namespace: 'get.test',
       extraOptions: {
@@ -66,7 +66,7 @@ describe('PageRouter', function () {
   })
 
   it('can create AND add paths', function () {
-    const router = express.Router()
+    const router = express.PageRouter()
     router.get('get.test', '/test', function (req, res, next) {})
     express.addPaths('test', { yes: true })
     const paths = express.getPaths()
