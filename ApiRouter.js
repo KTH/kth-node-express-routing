@@ -7,12 +7,6 @@ function _splice (arr, start, nrof) {
   return outp
 }
 
-function _unshift (arr, item) {
-  var newArr = Array.prototype.slice.call(arr)
-  newArr.unshift(item)
-  return newArr
-}
-
 function createApiScopeHandler (apiKeyScopes) {
   return function (req, res, next) {
     if (apiKeyScopes) {
