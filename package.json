@@ -1,6 +1,6 @@
 {
   "name": "kth-node-express-routing",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Define named routes using express routing syntax. Allows exporting route defs javascript object",
   "main": "index.js",
   "scripts": {
