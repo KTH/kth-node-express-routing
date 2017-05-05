@@ -33,5 +33,8 @@
     "express": "^4.15.2",
     "mocha": "^3.3.0",
     "standard": "7.1.0"
+  },
+  "dependencies": {
+    "safe-utils": "^0.1.1"
   }
 }

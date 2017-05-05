@@ -17,4 +17,16 @@ describe('ApiRouter', function () {
     router.register(apiDef, function (req, res) { return })
     expect(router).not.to.equal(undefined)
   })
+
+  // TODO: Do we need to respect "scope_required": true
+  /*
+  function addScopeToRequest (path, verb) {
+    if (path.apikey && path.apikey.scopes) {
+      server[ verb ](path.uri, function (req, res, next) {
+        req.scope = path.apikey.scopes
+        next()
+      })
+    }
+  }
+  */
 })

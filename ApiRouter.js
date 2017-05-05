@@ -1,4 +1,5 @@
 const express = require('express')
+const { safeGet } = require('safe-utils')
 
 function _splice (arr, start, nrof) {
   var newArr = Array.prototype.slice.call(arr)
@@ -14,7 +15,9 @@ function _unshift (arr, item) {
 
 function createApiScopeHandler (apiKeyScopes) {
   return function (req, res, next) {
-    req.scope = apiKeyScopes // path.apikey.scopes
+    if (apiKeyScopes) {
+      req.scope = apiKeyScopes // path.apikey.scopes
+    }
     next()
   }
 }
@@ -25,7 +28,7 @@ function Router () {
 
 Router.prototype.register = function (apiPathObj, middleware) {
   var routeArgs = _splice(arguments, 1)
-  routeArgs.unshift(createApiScopeHandler(apiPathObj.apikey.scopes))
+  routeArgs.unshift(createApiScopeHandler(safeGet(() => apiPathObj.apikey.scopes)))
   routeArgs.unshift(apiPathObj.uri)
   var verb = apiPathObj.method.toLowerCase()
   return this._router[verb].apply(this._router, routeArgs)
