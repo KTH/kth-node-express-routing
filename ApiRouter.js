@@ -23,7 +23,7 @@ function Router (checkApiKeyMiddleware) {
 
 Router.prototype.register = function (apiPathObj, middleware) {
   var routeArgs = _splice(arguments, 1)
-  
+
   /**
    * api_key strategy
    */
@@ -31,9 +31,8 @@ Router.prototype.register = function (apiPathObj, middleware) {
   if (apiPathObj.apikey &&
       apiPathObj.apikey.type === 'api_key' &&
       apiPathObj.apikey.scope_required) {
-
     if (typeof this._checkApiKeyMiddleware !== 'function') {
-      throw new Error("Missing middleware to check api key scopes. You should instantiate your ApiRouter something like this: const apiRoute = ApiRouter(authByApiKey)")
+      throw new Error('Missing middleware to check api key scopes. You should instantiate your ApiRouter something like this: const apiRoute = ApiRouter(authByApiKey)')
     }
     // Add api key scope check
     routeArgs.unshift(this._checkApiKeyMiddleware)

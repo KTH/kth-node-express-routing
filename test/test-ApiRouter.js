@@ -8,7 +8,6 @@ const apiDef = JSON.parse('{"uri":"/api/node/data/:id/api/node/v1","method":"GET
 
 const apiDefNoSecurity = JSON.parse('{"uri":"/api/node/data/:id/api/node/v1","method":"GET","apikey":{"scope_required":false}}')
 
-
 describe('ApiRouter', function () {
   it('can be created', function () {
     const router = express.ApiRouter()
