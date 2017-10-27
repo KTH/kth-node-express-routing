@@ -41,13 +41,16 @@ paths = {
 
 ## ApiRouter ##
 
-ApiRouter allows us to register api endpoints by passing api endpoint definition objects from the paths file.
+ApiRouter allows us to register api endpoints by passing api endpoint definition objects from the paths file. It will set req.scope and add the authByApiKey middleware passed to ApiRouter IF the apiDefObj passed below evaluates `apikey.scope_required == true`
 
-Usage:
+Usage in your node-api app:
 
 ```JavaScript
+// Middleware to protect enpoints with apiKey
+const authByApiKey = passport.authenticate('apikey', { session: false })
+
 const ApiRouter = require('kth-node-express-routing').ApiRouter
-const apiRoute = ApiRouter()
+const apiRoute = ApiRouter(authByApiKey)
 
 const apiDefObj = {
   uri: "/api/node/data/:id/api/node/v1",
@@ -59,5 +62,7 @@ const apiDefObj = {
   }
 }
 
+// A middleware adding the access scope requriements (req.scope) and the authByApiKey is automatically
+// prepended to the middleware pipeline
 apiRoute.register(apiDefObj, function (req, res) { ... })
 ```
