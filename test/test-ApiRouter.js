@@ -4,9 +4,9 @@ const expect = require('chai').expect
 
 const express = require('../index')
 
-const apiDef = JSON.parse('{"uri":"/api/node/data/:id/api/node/v1","method":"GET","apikey":{"scope_required":true,"scopes":["read"],"type":"api_key"}}')
+const apiDef = JSON.parse('{"uri":"/api/node/data/:id/api/node/v1","method":"GET","openid":{"scope_required":true,"scopes":{"api_key":["read"]},"type":"0"}}')
 
-const apiDefNoSecurity = JSON.parse('{"uri":"/api/node/data/:id/api/node/v1","method":"GET","apikey":{"scope_required":false}}')
+const apiDefNoSecurity = JSON.parse('{"uri":"/api/node/data/:id/api/node/v1","method":"GET","openid":{"scope_required":false}}')
 
 describe('ApiRouter', function () {
   it('can be created', function () {

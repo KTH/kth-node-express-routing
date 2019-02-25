@@ -28,9 +28,10 @@ Router.prototype.register = function (apiPathObj, middleware) {
    * api_key strategy
    */
   // Check apiPathObj to see if we should do the checkApiKeyMiddleware access control
-  if (apiPathObj.apikey &&
-      apiPathObj.apikey.type === 'api_key' &&
-      apiPathObj.apikey.scope_required) {
+  const scopes = safeGet(() => apiPathObj.openid.scopes['api_key'])
+  const scopesRequired = safeGet(() => apiPathObj.openid.scope_required)
+
+  if (scopes && scopes.length > 0 && scopesRequired) {
     if (typeof this._checkApiKeyMiddleware !== 'function') {
       throw new Error('Missing middleware to check api key scopes. You should instantiate your ApiRouter something like this: const apiRoute = ApiRouter(authByApiKey)')
     }
@@ -38,7 +39,7 @@ Router.prototype.register = function (apiPathObj, middleware) {
     routeArgs.unshift(this._checkApiKeyMiddleware)
 
     // Add scope to request before scope check (unshift inserts before)
-    routeArgs.unshift(_createApiScopeHandler(safeGet(() => apiPathObj.apikey.scopes)))
+    routeArgs.unshift(_createApiScopeHandler(scopes))
   }
 
   /**
