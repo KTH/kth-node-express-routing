@@ -1,6 +1,6 @@
 module.exports = {
-  PageRouter: require('./PageRouter').Router,
-  ApiRouter: require('./ApiRouter').Router,
-  getPaths: require('./PageRouter').getPaths,
-  addPaths: require('./PageRouter').addPaths
+  PageRouter: require('./lib/PageRouter').Router,
+  ApiRouter: require('./lib/ApiRouter').Router,
+  getPaths: require('./lib/PageRouter').getPaths,
+  addPaths: require('./lib/PageRouter').addPaths
 }

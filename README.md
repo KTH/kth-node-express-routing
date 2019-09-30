@@ -1,7 +1,8 @@
+# kth-node-express-routing [![Build Status](https://travis-ci.org/KTH/kth-node-express-routing.svg?branch=master)](https://travis-ci.org/KTH/kth-node-express-routing)
+
 This is a wrapper for express route to allow generating named path files for app routes. It is used på KTH node-web projects to pass urls to browser clients.
 
-
-## PageRouter ##
+## PageRouter
 
 PageRouter allows us to register page style routes that are registered in the path definition files.
 
@@ -23,14 +24,14 @@ server.use('/', appRoute.getRouter())
 const paths = getPaths()
 /*
 paths = {
-  system: { 
-    monitor: { 
+  system: {
+    monitor: {
       uri: '/_monitor',
       method: 'get
     }
   },
-  app: { 
-    index: { 
+  app: {
+    index: {
       uri: '/',
       method: 'get
     }
@@ -39,7 +40,7 @@ paths = {
 */
 ```
 
-## ApiRouter ##
+## ApiRouter
 
 ApiRouter allows us to register api endpoints by passing api endpoint definition objects from the paths file. It will set req.scope and add the authByApiKey middleware passed to ApiRouter IF the apiDefObj passed below evaluates `apikey.scope_required == true`
 
