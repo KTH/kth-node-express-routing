@@ -56,6 +56,8 @@ Router.prototype.register = function register(apiPathObj, middleware, ...args) {
   return this._router[verb].apply(this._router, routeArgs)
 }
 
-Router.prototype.getRouter = () => this._router
+Router.prototype.getRouter = function getRouter() {
+  return this._router
+}
 
 module.exports.Router = checkApiKeyMiddleware => new Router(checkApiKeyMiddleware)
