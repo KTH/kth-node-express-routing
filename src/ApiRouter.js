@@ -1,9 +1,10 @@
 const express = require('express')
 const { safeGet } = require('safe-utils')
 
-function _splice(arr, start, nrof) {
+function _splice(...args) {
+  const [arr, start, nrof] = args
   const newArr = Array.prototype.slice.call(arr)
-  const outp = arguments.length <= 2 ? newArr.splice(start) : newArr.splice(start, nrof)
+  const outp = args.length <= 2 ? newArr.splice(start) : newArr.splice(start, nrof)
   return outp
 }
 
@@ -21,7 +22,9 @@ function Router(checkApiKeyMiddleware) {
   this._checkApiKeyMiddleware = checkApiKeyMiddleware
 }
 
-Router.prototype.register = function register(apiPathObj, middleware, ...args) {
+Router.prototype.register = function register(...args) {
+  const apiPathObj = args[0]
+  // const middleware = args[1]
   const routeArgs = _splice(args, 1)
 
   /**

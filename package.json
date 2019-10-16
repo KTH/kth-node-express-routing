@@ -1,6 +1,6 @@
 {
   "name": "kth-node-express-routing",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Define named routes using express routing syntax. Allows exporting route defs javascript object",
   "main": "index.js",
   "scripts": {
@@ -28,28 +28,29 @@
     "url": "https://github.com/KTH/kth-node-express-routing/issues"
   },
   "homepage": "https://github.com/KTH/kth-node-express-routing#readme",
+  "dependencies": {
+    "safe-utils": "^0.2.1"
+  },
   "peerDependencies": {
-    "express": "^4.15.2"
+    "express": "^4.17.1"
   },
   "devDependencies": {
-    "express": "^4.15.2",
-    "babel-eslint": "^10.0.2",
+    "express": "^4.17.1",
+    "babel-eslint": "^10.0.3",
     "chai": "^4.2.0",
-    "dotenv": "6.2.0",
-    "eslint": "^5.15.3",
-    "eslint-config-airbnb": "^14.0.0",
-    "eslint-config-prettier": "^4.3.0",
+    "dotenv": "8.2.0",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-react": "^7.14.3",
-    "husky": "^3.0.7",
-    "mocha": "^5.2.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^3.0.9",
+    "mocha": "^6.2.1",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1"
-  },
-  "dependencies": {
-    "safe-utils": "^0.1.1"
   },
   "husky": {
     "hooks": {
