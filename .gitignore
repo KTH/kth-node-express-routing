@@ -6,4 +6,8 @@
 node_modules/
 .vscode
 npm-debug.log
+
+# No package-lock.json in public KTH packages...
 package-lock.json
+
+coverage
