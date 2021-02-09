@@ -20,7 +20,7 @@ function _unshift(arr, item) {
   return newArr
 }
 
-Router.prototype._registerRoute = function(verb, options, pathExpr) {
+Router.prototype._registerRoute = function (verb, options, pathExpr) {
   let namespace
   let addOptions = {}
   if (typeof options === 'object') {
@@ -44,7 +44,7 @@ Router.prototype._registerRoute = function(verb, options, pathExpr) {
       cursor[tmp] = Object.assign(
         {
           uri: pathExpr,
-          method: verb
+          method: verb,
         },
         addOptions
       )
@@ -54,7 +54,7 @@ Router.prototype._registerRoute = function(verb, options, pathExpr) {
 
 const verbs = ['get', 'post', 'put', 'delete', 'all', 'use']
 verbs.forEach(verb => {
-  Router.prototype[verb] = function(namespace, pathExpr) {
+  Router.prototype[verb] = function (namespace, pathExpr) {
     this._registerRoute(verb, namespace, pathExpr)
     var middlewares = _splice(arguments, 2)
     var args = _unshift(middlewares, pathExpr)
@@ -62,19 +62,19 @@ verbs.forEach(verb => {
   }
 })
 
-Router.prototype.getRouter = function() {
+Router.prototype.getRouter = function () {
   return this._router
 }
 
-module.exports.Router = function() {
+module.exports.Router = function () {
   return new Router()
 }
 
-module.exports.getPaths = function() {
+module.exports.getPaths = function () {
   return _routeDefs
 }
 
-module.exports.addPaths = function(namespace, pathObj) {
+module.exports.addPaths = function (namespace, pathObj) {
   var namespaceTuple = namespace.split('.')
   var cursor = _routeDefs
   for (let index in namespaceTuple) {
