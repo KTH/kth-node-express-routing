@@ -13,7 +13,7 @@ const { _routerMockup: ExpressRouterMockup } = jest.requireMock('express')
 
 const { Router: ApiRouter } = require('./ApiRouter')
 
-const { bold, green, red, EXPECTS, IS_ACCESSIBLE, RETURNS, THROWS, FAILS, WORKS } = require('../test')
+const { bold, green, EXPECTS, IS_ACCESSIBLE, RETURNS, THROWS, FAILS, WORKS } = require('../test')
 
 const apiDefPostWithValidSecurity = {
   uri: '/api/node/v1/message/:id',

@@ -3,26 +3,18 @@ const express = require('express')
 
 function _createApiScopeHandler(apiKeyScopes) {
   return (req, res, next) => {
-    if (apiKeyScopes) {
-      req.scope = apiKeyScopes // path.apikey.scopes
-    }
+    req.scope = apiKeyScopes
     next()
   }
 }
 
-function Router(checkApiKeyMiddleware) {
-  this._router = express.Router()
-  this._checkApiKeyMiddleware = checkApiKeyMiddleware
-}
-
 /**
- * This function throws an error
- * if the given path-object has an invalid structure.
+ * This function throws an error if the given path-object has an invalid structure.
  *
  * @param {*} input
  * @throws
  */
-function ensureValidPathObject(input) {
+function _ensureValidPathObject(input) {
   const _objectContainsExactlyOneStrategy = {
     name: 'scopes contains exactly one strategy',
     // eslint-disable-next-line no-template-curly-in-string
@@ -58,45 +50,67 @@ function ensureValidPathObject(input) {
   pathObjectSchema.validateSync(input, { strict: true })
 
   const { method, openid } = input
-
   if (method.toUpperCase() !== 'GET' && openid == null) {
     throw new Error(`Missing prop "openid" in input - mandatory with method "${method}"`)
   }
 }
 
-Router.prototype.register = function register(apiPathObj, ...routeArgs) {
-  try {
-    ensureValidPathObject(apiPathObj)
-  } catch (error) {
-    error.message = `register() failed - ${error.message}`
-    throw error
+class Router {
+  constructor(checkApiKeyMiddleware) {
+    this._router = express.Router()
+    this._checkApiKeyMiddleware = checkApiKeyMiddleware
   }
 
-  if (apiPathObj.openid && apiPathObj.openid.scope_required) {
-    const { scopes } = apiPathObj.openid
+  /**
+   * @returns {object}
+   *    Underlying Express.js Router
+   */
+  getRouter() {
+    return this._router
+  }
 
-    if (scopes.api_key) {
-      if (typeof this._checkApiKeyMiddleware !== 'function') {
-        throw new Error(
-          'Missing middleware to check api key scopes. You should instantiate your ApiRouter something like this: const apiRoute = ApiRouter(authByApiKey)'
-        )
-      }
-
-      routeArgs.unshift(_createApiScopeHandler(scopes.api_key), this._checkApiKeyMiddleware)
+  /**
+   * @param {object} apiPathObj
+   * @param {Function[]} routeArgs
+   * @throws
+   *    e.g. in case of invalid apiPathObj
+   * @returns {object}
+   *    Underlying Express.js Router
+   */
+  register(apiPathObj, ...routeArgs) {
+    try {
+      _ensureValidPathObject(apiPathObj)
+    } catch (error) {
+      error.message = `register() failed - ${error.message}`
+      throw error
     }
 
-    /**
-     * If we want to implement OAuth, OpenId or similar strategy we would add it here.
-     *    e.g. if (scopes.connect) { ... }
-     */
+    if (apiPathObj.openid && apiPathObj.openid.scope_required) {
+      const { scopes } = apiPathObj.openid
+
+      if (scopes.api_key) {
+        if (typeof this._checkApiKeyMiddleware !== 'function') {
+          throw new Error(
+            'Missing middleware to check api key scopes. You should instantiate your ApiRouter something like this: const apiRoute = ApiRouter(authByApiKey)'
+          )
+        }
+
+        routeArgs.unshift(_createApiScopeHandler(scopes.api_key), this._checkApiKeyMiddleware)
+      }
+
+      /**
+       * If we want to implement OAuth, OpenId or similar strategy we would add it here.
+       *    e.g. if (scopes.connect) { ... }
+       */
+    }
+
+    const verb = apiPathObj.method.toLowerCase()
+    return this._router[verb](apiPathObj.uri, ...routeArgs)
   }
-
-  const verb = apiPathObj.method.toLowerCase()
-  return this._router[verb](apiPathObj.uri, ...routeArgs)
 }
 
-Router.prototype.getRouter = function getRouter() {
-  return this._router
+module.exports = {
+  Router: function _getNewInstance(checkApiKeyMiddleware) {
+    return new Router(checkApiKeyMiddleware)
+  },
 }
-
-module.exports.Router = checkApiKeyMiddleware => new Router(checkApiKeyMiddleware)
