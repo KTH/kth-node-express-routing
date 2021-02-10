@@ -1,12 +1,5 @@
+const yup = require('yup')
 const express = require('express')
-const { safeGet } = require('safe-utils')
-
-function _splice(...args) {
-  const [arr, start, nrof] = args
-  const newArr = Array.prototype.slice.call(arr)
-  const outp = args.length <= 2 ? newArr.splice(start) : newArr.splice(start, nrof)
-  return outp
-}
 
 function _createApiScopeHandler(apiKeyScopes) {
   return (req, res, next) => {
@@ -22,41 +15,84 @@ function Router(checkApiKeyMiddleware) {
   this._checkApiKeyMiddleware = checkApiKeyMiddleware
 }
 
-Router.prototype.register = function register(...args) {
-  const apiPathObj = args[0]
-  // const middleware = args[1]
-  const routeArgs = _splice(args, 1)
-
-  /**
-   * api_key strategy
-   */
-  // Check apiPathObj to see if we should do the checkApiKeyMiddleware access control
-  const scopes = safeGet(() => apiPathObj.openid.scopes.api_key)
-  const scopesRequired = safeGet(() => apiPathObj.openid.scope_required)
-
-  if (scopes && scopes.length > 0 && scopesRequired) {
-    if (typeof this._checkApiKeyMiddleware !== 'function') {
-      throw new Error(
-        'Missing middleware to check api key scopes. You should instantiate your ApiRouter something like this: const apiRoute = ApiRouter(authByApiKey)'
-      )
-    }
-    // Add api key scope check
-    routeArgs.unshift(this._checkApiKeyMiddleware)
-
-    // Add scope to request before scope check (unshift inserts before)
-    routeArgs.unshift(_createApiScopeHandler(scopes))
+/**
+ * This function throws an error
+ * if the given path-object has an invalid structure.
+ *
+ * @param {*} input
+ * @throws
+ */
+function ensureValidPathObject(input) {
+  const _objectContainsExactlyOneStrategy = {
+    name: 'scopes contains exactly one strategy',
+    // eslint-disable-next-line no-template-curly-in-string
+    message: '${path} must contain exactly one strategy',
+    test: object => Object.keys(object).length === 1,
   }
 
-  /**
-   * TODO: If we want to implement OAuth, OpenId or similar strategy we would
-   * add it here. Look at the "api_key strategy" above /jhsware
-   */
+  const pathObjectSchema = yup
+    .object({
+      uri: yup.string().required(),
+      method: yup
+        .string()
+        .required()
+        .matches(/^(GET|POST|PUT|DELETE)$/i),
+      openid: yup
+        .object({
+          scope_required: yup.boolean().required().oneOf([true]),
+          scopes: yup
+            .object({
+              api_key: yup.array(yup.string().required()).min(1),
+              // connect: yup.array(yup.string().required()).min(1),
+            })
+            .required()
+            .noUnknown()
+            .test(_objectContainsExactlyOneStrategy),
+        })
+        .notRequired()
+        .noUnknown(),
+    })
+    .required()
+    .noUnknown()
 
-  // Insert the mount path so the apply signature is correct
-  routeArgs.unshift(apiPathObj.uri)
+  pathObjectSchema.validateSync(input, { strict: true })
+
+  const { method, openid } = input
+
+  if (method.toUpperCase() !== 'GET' && openid == null) {
+    throw new Error(`Missing prop "openid" in input - mandatory with method "${method}"`)
+  }
+}
+
+Router.prototype.register = function register(apiPathObj, ...routeArgs) {
+  try {
+    ensureValidPathObject(apiPathObj)
+  } catch (error) {
+    error.message = `register() failed - ${error.message}`
+    throw error
+  }
+
+  if (apiPathObj.openid && apiPathObj.openid.scope_required) {
+    const { scopes } = apiPathObj.openid
+
+    if (scopes.api_key) {
+      if (typeof this._checkApiKeyMiddleware !== 'function') {
+        throw new Error(
+          'Missing middleware to check api key scopes. You should instantiate your ApiRouter something like this: const apiRoute = ApiRouter(authByApiKey)'
+        )
+      }
+
+      routeArgs.unshift(_createApiScopeHandler(scopes.api_key), this._checkApiKeyMiddleware)
+    }
+
+    /**
+     * If we want to implement OAuth, OpenId or similar strategy we would add it here.
+     *    e.g. if (scopes.connect) { ... }
+     */
+  }
 
   const verb = apiPathObj.method.toLowerCase()
-  return this._router[verb].apply(this._router, routeArgs)
+  return this._router[verb](apiPathObj.uri, ...routeArgs)
 }
 
 Router.prototype.getRouter = function getRouter() {
