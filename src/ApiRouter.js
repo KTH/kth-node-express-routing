@@ -51,7 +51,7 @@ function _ensureValidPathObject(input) {
 
   const { method, openid } = input
   if (method.toUpperCase() !== 'GET' && openid == null) {
-    throw new Error(`Missing prop "openid" in input - mandatory with method "${method}"`)
+    throw new Error(`Missing prop "openid" in input, which is mandatory with method "${method}"`)
   }
 }
 
@@ -71,18 +71,17 @@ class Router {
 
   /**
    * @param {object} apiPathObj
-   * @param {Function[]} routeArgs
+   * @param {Function[]} routeHandlers
    * @throws
    *    e.g. in case of invalid apiPathObj
    * @returns {object}
    *    Underlying Express.js Router
    */
-  register(apiPathObj, ...routeArgs) {
+  register(apiPathObj, ...routeHandlers) {
     try {
       _ensureValidPathObject(apiPathObj)
-    } catch (error) {
-      error.message = `register() failed - ${error.message}`
-      throw error
+    } catch ({ message }) {
+      throw new Error(`register() failed - ${message} (apiPathObj: ${JSON.stringify(apiPathObj)})`)
     }
 
     if (apiPathObj.openid && apiPathObj.openid.scope_required) {
@@ -95,7 +94,7 @@ class Router {
           )
         }
 
-        routeArgs.unshift(_createApiScopeHandler(scopes.api_key), this._checkApiKeyMiddleware)
+        routeHandlers.unshift(_createApiScopeHandler(scopes.api_key), this._checkApiKeyMiddleware)
       }
 
       /**
@@ -105,7 +104,7 @@ class Router {
     }
 
     const verb = apiPathObj.method.toLowerCase()
-    return this._router[verb](apiPathObj.uri, ...routeArgs)
+    return this._router[verb](apiPathObj.uri, ...routeHandlers)
   }
 }
 

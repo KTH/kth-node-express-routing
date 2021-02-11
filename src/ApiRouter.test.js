@@ -93,7 +93,7 @@ function runTestsAboutRegisterOfApiRouter() {
       expect(router.register).toHaveLength(1)
     })
 
-    it(`${green('accepts')} additional arguments (...routeArgs)`, () => {
+    it(`${green('accepts')} additional arguments (...routeHandlers)`, () => {
       const handlers = [jest.fn(), jest.fn(), jest.fn()]
       router.register({ uri, method, openid }, ...handlers)
 
@@ -126,7 +126,7 @@ function runTestsAboutRegisterOfApiRouter() {
       `- when registering an unsecure %s-endpoint - ${FAILS} as expected`,
       _method => {
         const callback = () => router.register({ uri, method: _method }, jest.fn())
-        expect(callback).toThrow(`Missing prop "openid" in input - mandatory with method "${_method}"`)
+        expect(callback).toThrow(`Missing prop "openid" in input, which is mandatory with method "${_method}"`)
       }
     )
 
