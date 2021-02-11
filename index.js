@@ -1,7 +1,12 @@
-module.exports = {
-  ApiRouter: require('./src/ApiRouter').Router,
+const { getPaths, addPaths } = require('./src/paths')
+const { Router: PageRouter } = require('./src/PageRouter')
+const { Router: ApiRouter } = require('./src/ApiRouter')
 
-  PageRouter: require('./src/PageRouter').Router,
-  getPaths: require('./src/PageRouter').getPaths,
-  addPaths: require('./src/PageRouter').addPaths,
+module.exports = {
+  getPaths,
+  addPaths,
+
+  PageRouter,
+
+  ApiRouter,
 }

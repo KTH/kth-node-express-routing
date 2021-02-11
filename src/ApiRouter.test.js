@@ -5,11 +5,6 @@ const { Router: ApiRouter } = require('./ApiRouter')
 
 const { bold, green, EXPECTS, IS_ACCESSIBLE, RETURNS, THROWS, FAILS, WORKS } = require('../test')
 
-// eslint-disable-next-line no-use-before-define
-runTestsAboutApiRouter()
-// eslint-disable-next-line no-use-before-define
-runTestsAboutRegisterOfApiRouter()
-
 function _expectIsApiScopeHandler({ handler, expectedScopes }) {
   expect(handler).toBeFunction()
   expect(handler).toHaveLength(3)
@@ -263,3 +258,6 @@ function runTestsAboutRegisterOfApiRouter() {
     )
   })
 }
+
+runTestsAboutApiRouter()
+runTestsAboutRegisterOfApiRouter()
