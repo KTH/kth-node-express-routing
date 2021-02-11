@@ -89,3 +89,11 @@ module.exports.addPaths = function (namespace, pathObj) {
     }
   }
 }
+
+module.exports._testInternals = {
+  resetPaths() {
+    Object.keys(_routeDefs).forEach(key => {
+      delete _routeDefs[key]
+    })
+  },
+}
