@@ -32,26 +32,21 @@
     "build": "echo ok"
   },
   "dependencies": {
-    "yup": "^0.32.8"
+    "yup": "^0.32.9"
   },
   "peerDependencies": {
     "express": "^4.17.1"
   },
   "devDependencies": {
-    "@kth/eslint-config-kth": "^1.0.9",
-    "@types/jest": "^26.0.20",
-    "eslint": "^7.19.0",
+    "@kth/eslint-config-kth": "^1.0.10",
+    "@types/jest": "^26.0.22",
+    "eslint": "^7.24.0",
     "express": "^4.17.1",
     "husky": "^6.0.0",
     "jest": "^26.6.3",
     "jest-extended": "^0.11.5",
     "prettier": "^2.2.1",
     "pretty-quick": "^3.1.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "@kth/eslint-config-kth"
-    ]
   },
   "// (prettier)": "configuration version 2020-06-15 - might also reside in .prettierrc.json",
   "prettier": {
@@ -70,11 +65,5 @@
     ],
     "testEnvironment": "node",
     "verbose": true
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm test",
-      "pre-commit": "pretty-quick --staged"
-    }
   }
 }
