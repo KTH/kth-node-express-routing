@@ -81,11 +81,11 @@ function runTestsAboutEndpointMethodOfPageRouter(method) {
     })
 
     it(`- when used w/o arguments - ${FAILS} as expected`, () => {
-      expect(func).toThrow('Cannot read property')
+      expect(func).toThrow(/Cannot read (property|properties)/)
     })
 
     it(`- when used w/o argument "namespace" - ${FAILS} as expected`, () => {
-      expect(() => func(undefined, uri, handler)).toThrow('Cannot read property')
+      expect(() => func(undefined, uri, handler)).toThrow(/Cannot read (property|properties)/)
     })
 
     it(`- when used w/o argument "uri" - ${WORKS} as expected`, () => {
@@ -145,7 +145,7 @@ function runTestsAboutEndpointMethodOfPageRouter(method) {
     })
 
     it(`- when "namespace" is an empty object - ${FAILS} as expected`, () => {
-      expect(() => func({}, uri, handler)).toThrow('Cannot read property')
+      expect(() => func({}, uri, handler)).toThrow(/Cannot read (property|properties)/)
     })
   })
 }

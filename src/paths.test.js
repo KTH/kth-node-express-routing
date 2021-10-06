@@ -42,11 +42,11 @@ function runTestsAboutAddPaths() {
     it(`${EXPECTS} two arguments (namespace, pathData)`, () => expect(addPaths).toHaveLength(2))
 
     it(`- when called w/o arguments - ${FAILS} as expected`, () => {
-      expect(addPaths).toThrow('Cannot read property')
+      expect(addPaths).toThrow(/Cannot read (property|properties)/)
     })
 
     it(`- when called w/o argument "namespace" - ${FAILS} as expected`, () => {
-      expect(() => addPaths(undefined, pathData)).toThrow('Cannot read property')
+      expect(() => addPaths(undefined, pathData)).toThrow(/Cannot read (property|properties)/)
     })
 
     it(`- when called w/o argument "pathData" - ${green('adds')} a path with empty data`, () => {
