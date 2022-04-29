@@ -1,4 +1,4 @@
-# kth-node-express-routing [![Build Status](https://travis-ci.org/KTH/kth-node-express-routing.svg?branch=master)](https://travis-ci.org/KTH/kth-node-express-routing)
+# kth-node-express-routing
 
 This is a wrapper for express route to allow generating named path files for app routes. It is used på KTH node-web projects to pass urls to browser clients.
 
