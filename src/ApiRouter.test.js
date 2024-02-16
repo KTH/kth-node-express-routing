@@ -122,7 +122,7 @@ function runTestsAboutRegisterOfApiRouter() {
       expect(get).toHaveBeenCalledWith(uri, handlers[0], handlers[1])
     })
 
-    it.each([['POST'], ['PUT'], ['DELETE']])(
+    it.each([['POST'], ['PUT'], ['PATCH'], ['DELETE']])(
       `- when registering an unsecure %s-endpoint - ${FAILS} as expected`,
       _method => {
         const callback = () => router.register({ uri, method: _method }, jest.fn())
@@ -130,7 +130,7 @@ function runTestsAboutRegisterOfApiRouter() {
       }
     )
 
-    it.each([['GET'], ['POST'], ['PUT'], ['DELETE']])(
+    it.each([['GET'], ['POST'], ['PUT'], ['PATCH'], ['DELETE']])(
       `- when registering a secure %s-endpoint - ${WORKS} as expected`,
       _method => {
         const handlers = [jest.fn(), jest.fn()]

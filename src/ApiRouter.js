@@ -28,7 +28,7 @@ function _ensureValidPathObject(input) {
       method: yup
         .string()
         .required()
-        .matches(/^(GET|POST|PUT|DELETE)$/i),
+        .matches(/^(GET|POST|PUT|DELETE|PATCH)$/i),
       openid: yup
         .object({
           scope_required: yup.boolean().required().oneOf([true]),
