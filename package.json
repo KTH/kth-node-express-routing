@@ -3,6 +3,9 @@
   "version": "2.1.0",
   "description": "Define named routes using express routing syntax. Allows exporting route defs javascript object",
   "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KTH/kth-node-express-routing.git"
