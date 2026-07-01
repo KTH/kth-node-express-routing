@@ -41,7 +41,7 @@
     "express": "4 - 5"
   },
   "devDependencies": {
-    "@kth/eslint-config-kth": "^3.7.0",
+    "@kth/eslint-config-kth": "^4.0.0",
     "@types/jest": "^30.0.0",
     "eslint": "^9.39.4",
     "express": "^5.2.1",
